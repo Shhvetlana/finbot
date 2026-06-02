@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Built my own family finance bot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f7f4ee;
+    --accent: #c0392b;
+    --muted: #888880;
+    --rule: #d8d4cc;
+    --highlight: #f0ebe0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Literata', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.75;
+    padding: 0;
+    opacity: 0;
+    animation: fadein 0.8s ease 0.1s forwards;
+  }
+
+  @keyframes fadein { to { opacity: 1; } }
+
+  /* ── Layout ── */
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+  }
+
+  /* ── Header ── */
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 40px;
+    margin-bottom: 56px;
+  }
+
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .byline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Body text ── */
+  p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  /* ── Section breaks ── */
+  .section {
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+
+  /* ── Pull quote / highlight ── */
+  .pullquote {
+    margin: 40px 0;
+    padding: 24px 28px;
+    background: var(--highlight);
+    border-left: 2px solid var(--accent);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #333;
+  }
+
+  /* ── Inline mono ── */
+  code {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    background: var(--highlight);
+    padding: 1px 5px;
+    border-radius: 2px;
+    color: #555;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 2px solid var(--ink);
+  }
+
+  footer p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── Progress bar ── */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.1s linear;
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="page">
+
+  <header>
+    <p class="kicker">Personal project &nbsp;/&nbsp; Product thinking</p>
+    <h1>Built my own family finance bot.<br><em>Here's why no existing tool worked.</em></h1>
+    <p class="byline">Svetlana Egorova</p>
+  </header>
+
+  <p>When we bought a house in France, our spreadsheets stopped working. Not because spreadsheets are bad, but because we suddenly had two countries, six banks, three currencies, and statements arriving in Armenian and Hebrew. I needed slices of data that the tables couldn't hold anymore.</p>
+
+  <p>I looked for an existing tool. Searched in Russian and English, and tested everything that came up. Not a single one could ingest statements from all my banks. The language barrier wasn't a minor inconvenience — it was a hard wall. Armenian PDFs, Hebrew spreadsheets with no card-level detail, Israeli CSVs with aggregated settlements. No budgeting app was built for this combination.</p>
+
+  <p>So I built my own. And the search I made wasn't wasted — I catalogued every feature I'd seen across the market, and that list became my backlog.</p>
+
+  <div class="section">
+    <span class="section-number">01</span>
+    <h2>The first real decision was behavioural</h2>
+    <p>A tool only works if both people actually use it. My husband and I live in Telegram: it's where we talk, coordinate, and share things. Adding a separate app would mean remembering to open it, and that extra step kills the habit before it starts. I set up a dedicated group with a bot instead. It's pinned and always there. Logging an expense feels like sending a message, because it is.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">02</span>
+    <h2>The second tension was about data</h2>
+    <p>Bank statements are sensitive; uploading them to someone else's app means trusting their infrastructure, their retention policy, and their breach response. Building my own system meant I controlled where the data lived and who could see it. I realised that Telegram holds all uploaded files, so statements uploaded through a web form are parsed regardless of language or format, reconciled and normalised into a single database with no sensitive information.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">03</span>
+    <h2>Under the hood</h2>
+    <p>The bank statements are enriched with spending notes and normalised into DWH-level views. Between uploads, you type or photograph a receipt, and the AI extracts the rest. Once a month, a full report comes back — budget vs. actuals, forecast, runway in months, unusual merchants, behavioural patterns by category and day of week.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">04</span>
+    <h2>Making something frictionless creates its own risk</h2>
+    <p>A system that flags everything unusual stops being read. I had to tune carefully: catch forgotten subscriptions and suspicious patterns, without crying wolf on every unfamiliar merchant. The first real win — finding 3 subscriptions we were certain we were tracking — only landed because the signal wasn't buried in noise.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">05</span>
+    <h2>The hardest architectural lesson: AI is not a calculator</h2>
+    <p>Early versions had the model doing financial reasoning directly — it produced fluent, confident, occasionally wrong numbers. The fix was structural: all calculations happen in SQL views or Python code first. The AI receives pre-computed facts and writes conclusions on top of them. Fifteen prompt iterations, each validated against hand-labelled reference outputs, before anything went into production.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">06</span>
+    <h2>On using multiple models</h2>
+    <p>Different AI models have different strengths — GPT helped me think through database structure, Claude was better at bot behaviour and prompt tuning. Using both, in fresh chats, with a reference output to check against, made debugging faster than any single tool would have.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">07</span>
+    <h2>Documentation as continuity</h2>
+    <p>After every meaningful change, write it down. Detailed documentation isn't overhead — it's what lets you continue in a new chat, with a new model, without losing context. Fifteen versions of documentation kept the project coherent across days of iteration.</p>
+  </div>
+
+  <div class="pullquote">
+    When finances are transparent to both people, the anxiety around them drops. We started making purchases more deliberately — and somehow that gave us more shared evenings, even with completely different daily food schedules. Awareness of what we spend on food turned into actual dinners together.
+  </div>
+
+  <footer>
+    <p>Built for our specific chaos. If yours looks similar, I'm happy to talk through what it would take to set it up.</p>
+  </footer>
+
+</div>
+
+<script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / total * 100) + '%';
+  });
+</script>
+
+</body>
+</html>
