@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raisin — Finance for people who live across borders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-mid: #5a5a55;
+    --ink-light: #9a9a93;
+    --surface: #f5f3ee;
+    --surface-warm: #ede9e0;
+    --surface-card: #ffffff;
+    --accent: #2d5a3d;
+    --accent-light: #e8f0eb;
+    --accent-mid: #4a8a60;
+    --line: rgba(26,26,24,0.10);
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: rgba(245,243,238,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-cta {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--surface-card);
+    background: var(--accent);
+    text-decoration: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 100px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #224830; }
+
+  /* SECTIONS */
+  section { padding: 6rem 2.5rem; }
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  /* HERO */
+  #hero {
+    padding-top: 10rem;
+    padding-bottom: 5rem;
+    min-height: 100vh;
+    display: flex; align-items: center;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent);
+    background: var(--accent-light);
+    padding: 0.35rem 0.85rem; border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--ink-mid);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent); color: #fff;
+    font-family: var(--sans); font-size: 0.9375rem; font-weight: 500;
+    text-decoration: none; padding: 0.85rem 1.75rem;
+    border-radius: 100px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: #224830; transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--sans); font-size: 0.9375rem; font-weight: 400;
+    color: var(--ink-mid); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-ghost::after { content: '→'; }
+
+  /* HERO VISUAL */
+  .hero-visual {
+    position: relative;
+  }
+  .report-card {
+    background: var(--surface-card);
+    border: 0.5px solid var(--line);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06), 0 0 0 0.5px var(--line);
+  }
+  .report-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 1.25rem;
+  }
+  .report-title { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-light); }
+  .report-month { font-size: 1.1rem; font-weight: 500; color: var(--ink); margin-top: 0.15rem; }
+  .report-badge {
+    background: var(--accent-light); color: var(--accent);
+    font-size: 0.75rem; font-weight: 500;
+    padding: 0.3rem 0.7rem; border-radius: 100px;
+  }
+  .report-metrics {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .metric {
+    background: var(--surface); border-radius: 12px; padding: 1rem;
+  }
+  .metric-label { font-size: 0.7rem; font-weight: 500; color: var(--ink-light); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .metric-value { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; color: var(--ink); letter-spacing: -0.02em; }
+  .metric-delta { font-size: 0.75rem; color: var(--accent); font-weight: 500; margin-top: 0.15rem; }
+  .metric-delta.warn { color: #b85c00; }
+  .narrative {
+    background: var(--accent-light);
+    border-left: 2.5px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .tg-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--surface);
+    border: 0.5px solid var(--line);
+    border-radius: 100px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.75rem;
+    color: var(--ink-mid);
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+  .tg-dot { width: 8px; height: 8px; border-radius: 50%; background: #29b6f6; }
+
+  /* PROBLEM */
+  #problem { background: var(--surface-warm); }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-headline {
+    font-family: var(--serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 300; line-height: 1.2; letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 32ch;
+    margin-bottom: 1.5rem;
+  }
+  .section-headline em { font-style: italic; color: var(--accent); }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .problem-card {
+    background: var(--surface-card);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .problem-icon {
+    font-size: 1.5rem; margin-bottom: 0.85rem;
+  }
+  .problem-card h3 {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+    letter-spacing: -0.01em; margin-bottom: 0.5rem; color: var(--ink);
+  }
+  .problem-card p { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  #how { position: relative; }
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
+  .step {
+    display: grid; grid-template-columns: 64px 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-top: 0.5px solid var(--line);
+  }
+  .step:last-child { border-bottom: 0.5px solid var(--line); }
+  .step-num {
+    font-family: var(--serif); font-size: 2rem; font-weight: 300;
+    color: var(--ink-light); line-height: 1; padding-top: 0.15rem;
+  }
+  .step-content h3 {
+    font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+    letter-spacing: -0.01em; margin-bottom: 0.4rem; color: var(--ink);
+  }
+  .step-content p { font-size: 0.9375rem; color: var(--ink-mid); line-height: 1.6; }
+  .step-tag {
+    display: inline-block;
+    background: var(--accent-light); color: var(--accent);
+    font-size: 0.75rem; font-weight: 500;
+    padding: 0.2rem 0.6rem; border-radius: 100px;
+    margin-top: 0.6rem;
+  }
+
+  /* PRINCIPLES */
+  #principles { background: var(--ink); color: #fff; }
+  #principles .section-label { color: var(--accent-mid); }
+  #principles .section-headline { color: #fff; }
+  .principles-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+  .principle {
+    background: var(--ink);
+    padding: 2rem;
+  }
+  .principle h3 {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+    letter-spacing: -0.01em; margin-bottom: 0.5rem; color: #fff;
+  }
+  .principle p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+  /* CTA */
+  #cta {
+    background: var(--accent);
+    text-align: center;
+    padding: 7rem 2.5rem;
+  }
+  #cta .section-label { color: rgba(255,255,255,0.6); }
+  #cta .section-headline { color: #fff; max-width: 28ch; margin: 0 auto 1rem; }
+  #cta .section-sub { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 42ch; margin: 0 auto 2.5rem; }
+  .btn-white {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: #fff; color: var(--accent);
+    font-family: var(--sans); font-size: 0.9375rem; font-weight: 500;
+    text-decoration: none; padding: 0.9rem 1.85rem;
+    border-radius: 100px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .cta-note {
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 2.5rem;
+    border-top: 0.5px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-size: 1rem; font-weight: 400; color: var(--ink);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.8rem; color: var(--ink-light); }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-left > * { animation: fadeUp 0.6s ease both; }
+  .hero-eyebrow { animation-delay: 0.05s; }
+  .hero-headline { animation-delay: 0.15s; }
+  .hero-sub { animation-delay: 0.25s; }
+  .hero-actions { animation-delay: 0.35s; }
+  .hero-visual { animation: fadeUp 0.8s 0.3s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    section { padding: 4rem 1.25rem; }
+    #hero { padding: 8rem 1.25rem 4rem; min-height: auto; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-visual { order: -1; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 48px 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+    #cta { padding: 5rem 1.25rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">raisin<span>.</span></a>
+  <a href="#cta" class="nav-cta">Request access</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Personal finance · Beta</div>
+      <h1 class="hero-headline">
+        Your finances,<br>
+        <em>all in one place</em> —<br>
+        wherever you live.
+      </h1>
+      <p class="hero-sub">
+        Raisin connects your banks across countries, parses statements in any language, and delivers a weekly briefing in the one app you already check: Telegram.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Request early access</a>
+        <a href="#how" class="btn-ghost">How it works</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="report-card">
+        <div class="report-header">
+          <div>
+            <div class="report-title">Monthly report</div>
+            <div class="report-month">May 2026</div>
+          </div>
+          <div class="report-badge">On track ✓</div>
+        </div>
+        <div class="report-metrics">
+          <div class="metric">
+            <div class="metric-label">Spent</div>
+            <div class="metric-value">₪14,820</div>
+            <div class="metric-delta">↓ 8% vs last month</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Runway</div>
+            <div class="metric-value">14.9 mo</div>
+            <div class="metric-delta">at current pace</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Target</div>
+            <div class="metric-value">₪20k</div>
+            <div class="metric-delta">₪5,180 remaining</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">FR spend</div>
+            <div class="metric-value">€340</div>
+            <div class="metric-delta warn">↑ travel month</div>
+          </div>
+        </div>
+        <div class="narrative">
+          Dining out is down 12% — that's your third consecutive improvement. Groceries held steady. One unknown charge from France worth looking at.
+        </div>
+        <div class="tg-badge">
+          <span class="tg-dot"></span>
+          Delivered via Telegram · @raisin_sec_bot
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <h2 class="section-headline">
+      Multi-country life is messy.<br>
+      <em>Existing tools weren't built for it.</em>
+    </h2>
+    <p style="color: var(--ink-mid); max-width: 55ch; font-size: 1.0rem; line-height: 1.7;">
+      Two bank accounts in Israel, one in France, a card in EUR, savings in USD. Statements in three languages, three formats, three portals. Every budgeting app assumes you live in one country with one currency.
+    </p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">🗂️</div>
+        <h3>Spreadsheets break at scale</h3>
+        <p>Manual entry works for one bank. It falls apart across countries, currencies, and partners sharing finances.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🌍</div>
+        <h3>Apps don't cross borders</h3>
+        <p>Most budgeting tools connect to banks in one country. They don't handle multi-currency life or mixed-language statements.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🤖</div>
+        <h3>AI gives confident guesses</h3>
+        <p>Generic AI assistants interpret raw bank data and produce plausible-sounding numbers. Real finance needs deterministic logic, not inference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">How Raisin works</div>
+    <h2 class="section-headline">From bank statement<br>to <em>clear decision</em>.</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Upload your statements</h3>
+          <p>Drop in bank statements from any of your accounts — PDF, CSV, XLSX. Raisin parses them regardless of bank format, language, or currency. Israeli banks, French banks, neobanks — all supported.</p>
+          <span class="step-tag">Multi-bank · Multi-language · Multi-currency</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>All logic runs in code, not in AI</h3>
+          <p>Every calculation — spend totals, runway, category breakdowns, month-on-month trends — is computed deterministically in Python. No model interprets your numbers. Numbers are numbers.</p>
+          <span class="step-tag">Python computes · AI narrates</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>AI writes the story</h3>
+          <p>Once all data is pre-computed, the AI receives facts — not raw transactions — and writes a plain-language narrative: what changed, what's worth watching, what's fine.</p>
+          <span class="step-tag">No hallucinations · Only verified figures</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Delivered in Telegram</h3>
+          <p>Your weekly report lands in the chat app you already use every day. No new app to install, no dashboard to remember to open. One command: <code style="background: var(--surface-warm); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.85em;">/financio</code></p>
+          <span class="step-tag">Zero activation cost · Already in your pocket</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="container">
+    <div class="section-label">Design principles</div>
+    <h2 class="section-headline" style="color: #fff;">
+      Built like a tool,<br>
+      not like a <em>product demo</em>.
+    </h2>
+
+    <div class="principles-grid">
+      <div class="principle">
+        <h3>Friction is the enemy of adoption</h3>
+        <p>If managing your finances requires logging into a new app, you won't. Raisin lives in Telegram because that's where you already are. The best financial tool is the one you actually use.</p>
+      </div>
+      <div class="principle">
+        <h3>AI without logic is noise</h3>
+        <p>AI is excellent at writing. It's unreliable at arithmetic. Raisin keeps these roles separate: Python handles every calculation, AI handles every sentence. Results are reproducible and auditable.</p>
+      </div>
+      <div class="principle">
+        <h3>Calibration over alerts</h3>
+        <p>An alert that fires every week trains you to ignore it. Raisin uses your historical baseline — not static rules — to surface only meaningful changes. Signal, not noise.</p>
+      </div>
+      <div class="principle">
+        <h3>Your data stays yours</h3>
+        <p>Statements are processed and discarded. No card numbers, no account IDs stored beyond what's needed. Built as a personal tool first — privacy was the default, not a feature added later.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="section-label">Early access</div>
+    <h2 class="section-headline">Ready to see your full financial picture?</h2>
+    <p class="section-sub">Raisin is in active development. Request access and I'll be in touch personally.</p>
+    <a href="https://www.linkedin.com/in/svetlanaegorova/" target="_blank" rel="noopener" class="btn-white">
+      Send your GitHub handle on LinkedIn →
+    </a>
+    <p class="cta-note">
+      Built by <a href="https://www.linkedin.com/in/svetlanaegorova/" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.75);">Svetlana Egorova</a> · Open source · Israel &amp; France
+    </p>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">raisin<span>.</span></a>
+  <p>Personal finance for people who live across borders.</p>
+  <p><a href="https://github.com/Shhvetlana/finbot" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/svetlanaegorova/" target="_blank" rel="noopener">LinkedIn</a></p>
+</footer>
+
+</body>
+</html>
